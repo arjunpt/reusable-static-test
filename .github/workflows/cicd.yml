@@ -1,0 +1,22 @@
+name: Python-applications
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  Templates:
+    uses: arjunpt/python-static-reusable-githubactions/.github/workflows/cicd.yml@main
+      python-version: "3.10"
+      requirements-path: "src/requirements.txt"
+      test-path: "src/test/test.py"
+      dockerfile-path: "Dockerfile"
+    secrets:
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+      AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
+      EC2_HOST: ${{ secrets.EC2_HOST }}
+      EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+      EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
