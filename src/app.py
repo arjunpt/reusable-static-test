@@ -1,5 +1,5 @@
 """
-app.py - A simple Flask application that returns 'Hello, world!' on the root URL.
+app.py - A simple Flask application that returns 'Hello, world!' on root URL.
 """
 
 from flask import Flask

@@ -1,4 +1,4 @@
-name: Python-applications
+name: Python applications
 
 on:
   push:

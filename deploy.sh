@@ -1,3 +1,4 @@
+#this is where the deployment script will run
 #!/bin/bash
 
 echo "deleting old app"
