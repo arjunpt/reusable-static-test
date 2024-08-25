@@ -9,8 +9,8 @@ jobs:
     uses: arjunpt/python-static-reusable-githubactions/.github/workflows/cicd.yml@main
     with:
       python-version: "3.10"
-      requirements-path: "src/requirements.txt"
-      test-path: "src/test/test.py"
+      requirements-path: "requirements.txt"
+      test-path: "test/test.py"
     secrets:
       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
