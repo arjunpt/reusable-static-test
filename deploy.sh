@@ -54,4 +54,4 @@ echo "started gunicorn 🚀"
 cd /var/www/app/src
 sudo apt install python3-flask -y
 sudo apt install gunicorn -y
-gunicorn --workers 3 --bind unix:/var/www/app/src/myapp.sock app:app &
+nohup gunicorn --workers 3 --bind unix:/var/www/app/src/myapp.sock app:app &
