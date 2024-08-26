@@ -2,7 +2,6 @@
 
 echo "Deleting old app"
 sudo rm -rf /var/www/
-#!/bin/bash
 
 echo "deleting old app"
 sudo rm -rf /var/www/
@@ -51,22 +50,7 @@ else
 fi
 
 
-# # Start Gunicorn with the Flask application
-# # Replace 'server:app' with 'yourfile:app' if your Flask instance is named differently.
-# # gunicorn --workers 3 --bind 0.0.0.0:8000 server:app &
-# echo "starting gunicorn"
-# apt-get install python3-venv
-# cd /var/www/app/src
-# python3 -m venv venv
-# source venv/bin/activate
-# pip install gunicorn
-# pip install flask
-# gunicorn --workers 3 --bind unix:/var/www/app/src/myapp.sock app:app
-# sudo gunicorn --workers 3 --bind unix:myapp.sock  server:app --user www-data --group www-data --daemon
-
 echo "started gunicorn 🚀"
-sudo apt-get update
-sudo apt-get install python3-pip -y
 sudo apt install python3-flask -y
 sudo apt install gunicorn -y
 gunicorn --workers 3 --bind unix:/var/www/app/src/myapp.sock app:app
