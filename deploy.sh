@@ -57,7 +57,8 @@ cd /var/www/app/src
 sudo pip3 install gunicorn
 
 # Run Gunicorn in the background
-nohup gunicorn --workers 3 --bind unix:/var/www/app/src/myapp.sock app:app &
+nohup gunicorn --workers 3 --bind unix:/var/www/app/src/myapp.sock app:app > gunicorn.log 2>&1 &
 
-# Verify Gunicorn is running
+# Check if Gunicorn started successfully
+sleep 5  # Give it some time to start
 pgrep -af gunicorn
