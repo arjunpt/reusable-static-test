@@ -10,7 +10,7 @@ jobs:
     with:
       python-version: "3.10"
       requirements-path: "requirements.txt"
-      test-path: "test/test.py"
+      test-path: "src/test/test.py"
       source-path: "src"
     secrets:
       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
