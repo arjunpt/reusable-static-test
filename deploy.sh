@@ -57,6 +57,7 @@ cd /var/www/app/src
 sudo pip3 install gunicorn
 
 # Run Gunicorn in the background
+pkill -f gunicorn
 nohup gunicorn --workers 3 --bind unix:/var/www/app/src/myapp.sock app:app > gunicorn.log 2>&1 &
 
 # Check if Gunicorn started successfully
