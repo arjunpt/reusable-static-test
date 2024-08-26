@@ -65,28 +65,41 @@
 
 #!/bin/bash
 
+# Variables
+APP_DIR="/var/www/app"
+SRC_DIR="$APP_DIR/src"
+VENV_DIR="$APP_DIR/venv"
+
 # Check for existing application and remove if necessary
-if [ -d /var/www/app ]; then
+if [ -d "$APP_DIR" ]; then
     echo "Deleting old app"
-    sudo rm -rf /var/www/app
+    sudo rm -rf "$APP_DIR"
 fi
 
 echo "Creating app folder"
-sudo mkdir -p /var/www/app
+sudo mkdir -p "$APP_DIR"
 
 echo "Moving files to app folder"
-sudo mv * /var/www/app
+sudo mv * "$APP_DIR"
 
 # Update package list and install Python and Pip
 echo "Updating package list"
 sudo apt-get update
 
 echo "Installing Python and Pip"
-sudo apt-get install -y python3 python3-pip
+sudo apt-get install -y python3 python3-venv
+
+# Create a virtual environment
+echo "Creating virtual environment"
+sudo python3 -m venv "$VENV_DIR"
+
+# Activate the virtual environment
+echo "Activating virtual environment"
+source "$VENV_DIR/bin/activate"
 
 # Install application dependencies from requirements.txt
 echo "Installing application dependencies from requirements.txt"
-sudo pip3 install -r /var/www/app/requirements.txt
+pip install -r "$APP_DIR/requirements.txt"
 
 # Install and configure Nginx
 if ! command -v nginx > /dev/null; then
@@ -115,12 +128,13 @@ else
 fi
 
 # Install and start Gunicorn
-echo "Ensuring Gunicorn is installed"
-sudo pip3 install gunicorn
+echo "Installing Gunicorn"
+pip install gunicorn
 
+# Run Gunicorn in the background
 echo "Starting Gunicorn"
-cd /var/www/app/src
-nohup gunicorn --workers 3 --bind unix:/var/www/app/src/myapp.sock app:app > gunicorn.log 2>&1 &
+cd "$SRC_DIR"
+nohup "$VENV_DIR/bin/gunicorn" --workers 3 --bind unix:/var/www/app/src/myapp.sock app:app > gunicorn.log 2>&1 &
 
 # Check if Gunicorn started successfully
 sleep 5  # Give it some time to start
