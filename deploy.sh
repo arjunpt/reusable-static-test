@@ -1,35 +1,36 @@
-#!/bin/bash
+# #!/bin/bash
 
-echo "Deleting old app"
-sudo rm -rf /var/www/
+# Check for existing application and remove if necessary
+if [ -d /var/www/app ]; then
+    echo "Deleting old app"
+    sudo rm -rf /var/www/app
+fi
 
-echo "deleting old app"
-sudo rm -rf /var/www/
+echo "Creating app folder"
+sudo mkdir -p /var/www/app
 
-echo "creating app folder"
-sudo mkdir -p /var/www/app 
+echo "Moving files to app folder"
+sudo mv * /var/www/app
 
-echo "moving files to app folder"
-sudo mv  * /var/www/app 
-
-
+# Update package list and install Python and Pip
+echo "Updating package list"
 sudo apt-get update
-echo "installing python and pip"
+
+echo "Installing Python and Pip"
 sudo apt-get install -y python3 python3-pip
 
 # Install application dependencies from requirements.txt
-echo "Install application dependencies from requirements.txt"
-sudo pip install -r requirements.txt
+echo "Installing application dependencies from requirements.txt"
+sudo pip3 install -r /var/www/app/requirements.txt
 
-# Update and install Nginx if not already installed
+# Install and configure Nginx
 if ! command -v nginx > /dev/null; then
     echo "Installing Nginx"
-    sudo apt-get update
     sudo apt-get install -y nginx
 fi
 
-# Configure Nginx to act as a reverse proxy if not already configured
 if [ ! -f /etc/nginx/sites-available/myapp ]; then
+    echo "Configuring Nginx"
     sudo rm -f /etc/nginx/sites-enabled/default
     sudo bash -c 'cat > /etc/nginx/sites-available/myapp <<EOF
 server {
@@ -42,17 +43,21 @@ server {
     }
 }
 EOF'
-
     sudo ln -s /etc/nginx/sites-available/myapp /etc/nginx/sites-enabled
     sudo systemctl restart nginx
 else
     echo "Nginx reverse proxy configuration already exists."
 fi
 
-
-echo "started gunicorn 🚀"
+# Install and start Gunicorn
+echo "Starting Gunicorn"
 cd /var/www/app/src
-sudo apt install python3-flask -y
-sudo apt install gunicorn -y
+
+# Ensure Gunicorn is installed
+sudo pip3 install gunicorn
+
+# Run Gunicorn in the background
 nohup gunicorn --workers 3 --bind unix:/var/www/app/src/myapp.sock app:app &
+
+# Verify Gunicorn is running
 pgrep -af gunicorn
