@@ -89,9 +89,12 @@ sudo apt-get update
 echo "Installing Python and Pip"
 sudo apt-get install -y python3 python3-venv
 
-# Create a virtual environment
+# Create a virtual environment with sudo permissions
 echo "Creating virtual environment"
 sudo python3 -m venv "$VENV_DIR"
+
+# Adjust permissions of the virtual environment directory
+sudo chown -R $USER:$USER "$VENV_DIR"
 
 # Activate the virtual environment
 echo "Activating virtual environment"
