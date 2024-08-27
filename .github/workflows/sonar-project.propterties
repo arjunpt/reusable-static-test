@@ -1,0 +1,4 @@
+sonar.projectKey=python-static
+sonar.projectName=python-static
+sonar.java.binaries=.
+sonar.sources=src
