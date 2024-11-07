@@ -1,4 +1,4 @@
-name: Python applications
+name: EKS Python applications
 on:
   push:
     branches: [ "main" ]
@@ -15,8 +15,6 @@ jobs:
       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
       AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
-      EC2_HOST: ${{ secrets.EC2_HOST }}
-      EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
-      EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      KUBE_CONFIG_PROD: ${{ secrets.KUBE_CONFIG_PROD}}
